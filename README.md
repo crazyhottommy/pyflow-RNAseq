@@ -252,3 +252,6 @@ and
 ```bash
 $ snakemake -n -R `snakemake --list-code-changes`
 ```
+### Acknowledgements
+
+Thanks [Samir Amin](https://github.com/dyndna) for providing the STAR aligning parameters.
