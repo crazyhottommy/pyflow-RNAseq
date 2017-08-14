@@ -1,11 +1,17 @@
+
+### citation
+
+If you use this pipeline, please cite:
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.842264.svg)](https://doi.org/10.5281/zenodo.842264)
+
 ### work flow of the pipeline
-* If inputs are fastq files:  
+* If inputs are fastq files:
 
 ![](./rule_diagram.png)
 
 The output folder will be suffixed by `_fq`
 
-* If inputs are bam files:  
+* If inputs are bam files:
 
 ![](./rule_diagram2.png)
 
@@ -81,7 +87,7 @@ conda create -n snakemake python=3 snakemake
 source activate snakemake
 ```
 
-## STEPS 
+## STEPS
 
 ### on nautilus
 
@@ -96,7 +102,7 @@ source activate py351
 
 please use the **full path** for the folder that contains your fastq folders.
 
-`python3 fastq2json.py --fastq_dir /path/to/the/fastq/`  
+`python3 fastq2json.py --fastq_dir /path/to/the/fastq/`
 
 `python3 bam2json.py --bam_dir /path/to/the/bam/`
 
@@ -130,10 +136,10 @@ raw_rnaseq/
 check the file information in the json file:
 
 ```
-less -S samples.json 
+less -S samples.json
 ```
 
-### dry run to test 
+### dry run to test
 
 ```bash
 ## dry run
@@ -160,7 +166,7 @@ Dependent jobs are submitted one by one, if some jobs failed, the pipeline will 
 ### submit all jobs to the cluster
 
 ```bash
-./pyflow-RNAseq.sh 
+./pyflow-RNAseq.sh
 ```
 
 All jobs will be submitted to the cluster on queue.  This is useful if you know your jobs will succeed for most of them and the jobs are on queue to gain priority.
@@ -246,5 +252,3 @@ and
 ```bash
 $ snakemake -n -R `snakemake --list-code-changes`
 ```
-
-
