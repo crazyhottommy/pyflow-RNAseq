@@ -1,0 +1,66 @@
+{
+    "__default__" :
+    {
+        "time" : "00:15",
+        "cpu": 1,
+        "email" : "mtang1@mdanderson.org",
+        "EmailNotice": "N",
+        "MaxMem": 16384,
+        "queue" : "short"
+    },
+    "STAR_fq" :
+    {
+        "time" : "02:00",
+        "MaxMem": 49062,
+        "cpu" : 5,
+        "queue": "medium"
+    },
+    "HTSeq_fq":
+    {
+        "time" : "10:00",
+        "queue" : "medium"
+    },
+    "featureCount_fq":
+    {
+        "time" : "01:00",
+        "MaxMem": 32768,
+        "cpu" : 5
+    },
+    "sortBam_fq":
+    {
+        "time" : "01:00",
+        "MaxMem": 32768,
+        "cpu" : 5
+    },
+    "indexBam_fq":
+    {
+        "time" : "00:20"
+    },
+    "make_bigwig_fq":
+    {
+        "time" : "02:00",
+        "MaxMem": 32768,
+        "queue": "medium",
+        "cpu" : 5
+    },
+    "HTseq_bam":
+    {
+        "time" : "10:00",
+        "queue" : "medium"
+    },
+    "featureCount_bam":
+    {
+        "time" : "01:00",
+        "MaxMem": 32768,
+        "cpu" : 5
+    },
+    "make_bigwig_bam":
+    {
+        "time" : "02:00",
+        "MaxMem": 32768,
+        "queue": "medium",
+        "cpu" : 5
+    }
+    
+}
+    

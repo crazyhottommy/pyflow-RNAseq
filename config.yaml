@@ -1,0 +1,20 @@
+
+## the index folder for STAR, change to mm9 if it is mouse
+STARINDEX: "/scratch/genomic_med/apps/annot/starbase/hg19/starindex"
+
+## gtf file for annotation
+
+MYGTF: "/scratch/genomic_med/apps/annot/starbase/hg19/annot/gencode.v19.annotation.hs37d5_chr.gtf"
+
+
+## start from bam or start from fastq
+from_fastq: True
+
+## use which program to count 
+htseq: False
+featureCount : True
+
+# Path to a JSON file with samples and their corresponding FASTQ files.
+SAMPLES_JSON: './samples.json'
+
+CLUSTER_JSON: './cluster.json'
