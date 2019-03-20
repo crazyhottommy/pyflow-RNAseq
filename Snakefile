@@ -220,6 +220,6 @@ rule make_bigwig_bam:
 	shell:
 		"""
 		source activate root
-		bamCoverage -b {input} --skipNonCoveredRegions --normalizeUsingRPKM --binSize 20 --smoothLength 100 -p 5  -o {output} 2> {log}
+		bamCoverage -b {input} --skipNonCoveredRegions --normalizeUsing RPKM --binSize 20 --smoothLength 100 -p 5  -o {output} 2> {log}
 
 		"""
