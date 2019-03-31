@@ -206,7 +206,7 @@ rule featureCount_bam:
 	shell:
 		"""
 		# -p for paried-end, counting fragments rather reads
-		featureCounts -T 5 -p -t exon --ignoreDup -g gene_id -a {MYGTF} -o {output} {input} 2> {log}
+		featureCounts -T 5 -p -t exon  -g gene_id -a {MYGTF} -o {output} {input} 2> {log}
 
 		"""
 	
