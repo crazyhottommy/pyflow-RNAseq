@@ -72,6 +72,7 @@ rule STAR_fq:
 		"""
 		STAR --runMode alignReads \
 		--runThreadN 5 \
+		--bamRemoveDuplicatesType UniqueIdentical \
 		--genomeDir {STARINDEX} \
 		--genomeLoad NoSharedMemory \
 		--readFilesIn {input.r1} {input.r2} \
