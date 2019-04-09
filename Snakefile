@@ -13,6 +13,8 @@ MYGTF = config["MYGTF"]
 
 STARINDEX = config["STARINDEX"]
 
+ALL_QC = ["05multiQC/multiQC_log.html"]
+
 TARGETS = []
 
 ## constructe the target if the inputs are fastqs
@@ -23,6 +25,7 @@ if config["from_fastq"]:
 	TARGETS.extend(ALL_BAM)
 	TARGETS.extend(ALL_SORTED_BAM)
 	TARGETS.extend(ALL_BAM_INDEX)
+	TARGETS.extend(ALL_QC)
 	
 	if config["htseq"]:
 		ALL_CNT = expand("03htseq_fq/{sample}_htseq.cnt", sample = SAMPLES)
@@ -57,10 +60,42 @@ localrules: all
 rule all:
 	input: TARGETS
 
-rule STAR_fq:
-	input: 
+rule merge_fastqs:
+	input:
 		r1 = lambda wildcards: FILES[wildcards.sample]['R1'],
 		r2 = lambda wildcards: FILES[wildcards.sample]['R2']
+	output:
+		"01seq/{sample}_R1.fastq.gz", "01seq/{sample}_R2.fastq.gz"
+	log: "00log/{sample}_merge_fastq.log"
+	params:
+		jobname = "{sample}"
+	threads: 1
+	message: "merging fastqs {input}: {threads} threads"
+	shell:
+		"""
+		gunzip -c {input.r1} | gzip > {output[0]} 2> {log}
+		gunzip -c {input.r2} | gzip > {output[1]} 2>> {log}
+		"""
+
+
+rule fastqc:
+    input:  "01seq/{sample}_R1.fastq.gz", "01seq/{sample}_R2.fastq.gz"
+    output: "02fqc/{sample}_R1_fastqc.zip", "02fqc/{sample}_R2_fastqc.zip"
+    log:    "00log/{sample}_fastqc"
+    threads: 1
+    params : jobname = "{sample}"
+    message: "fastqc {input}: {threads}"
+    shell:
+        """
+	# fastqc works fine on .gz file as well
+        module load fastqc
+        fastqc -o 02fqc -f fastq --noextract {input[0]} {input[1]} 2> {log}
+        """
+
+rule STAR_fq:
+	input: 
+		r1= "01seq/{sample}_R1.fastq.gz", 
+		r2 = "01seq/{sample}_R2.fastq.gz"
 	output: "01bam_fq/{sample}Aligned.out.bam"
 	log: "00log/{sample}_STAR_align.log"
 	params: 
@@ -108,6 +143,7 @@ rule STAR_fq:
 		--outSAMheaderHD @HD VN:1.4 \
 		--outFileNamePrefix {params.outprefix} 2> {log}
 		"""
+
 
 rule HTSeq_fq:
 	input: "01bam_fq/{sample}Aligned.out.bam"
@@ -224,3 +260,19 @@ rule make_bigwig_bam:
 		bamCoverage -b {input} --skipNonCoveredRegions --normalizeUsing RPKM --binSize 20 --smoothLength 100 -p 5  -o {output} 2> {log}
 
 		"""
+
+rule multiQC:
+    input :
+        expand("00log/{sample}.align", sample = ALL_SAMPLES),
+        expand("04aln/{sample}.sorted.bam.flagstat", sample = ALL_SAMPLES),
+        expand("02fqc/{sample}_{read}_fastqc.zip", sample = ALL_SAMPLES, read = ["R1", "R2"])
+    output: "05multiQC/multiQC_log.html"
+    log: "00log/multiqc.log"
+    message: "multiqc for all logs"
+    shell:
+        """
+        multiqc 02fqc 01bam_fq -o 05multiQC -d -f -v -n multiQC_log 2> {log}
+
+        """
+
+

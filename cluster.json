@@ -10,6 +10,11 @@
         "output": "sbatch_log/{rule}.{wildcards}.out",
         "error": "sbatch_log/{rule}.{wildcards}.err"
     },
+    "fastqc":
+    {
+        "time": "1:00",
+        "mem": 4000
+    },
     "STAR_fq":
     {
         "time" : "4:00:00",
