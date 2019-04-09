@@ -263,9 +263,8 @@ rule make_bigwig_bam:
 
 rule multiQC:
     input :
-        expand("00log/{sample}.align", sample = ALL_SAMPLES),
-        expand("04aln/{sample}.sorted.bam.flagstat", sample = ALL_SAMPLES),
-        expand("02fqc/{sample}_{read}_fastqc.zip", sample = ALL_SAMPLES, read = ["R1", "R2"])
+        expand("01bam_fq/{sample}Aligned.out.bam", sample = SAMPLES), 
+        expand("02fqc/{sample}_{read}_fastqc.zip", sample = SAMPLES, read = ["R1", "R2"])
     output: "05multiQC/multiQC_log.html"
     log: "00log/multiqc.log"
     message: "multiqc for all logs"
