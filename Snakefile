@@ -1,5 +1,5 @@
-shell.prefix("set -eo pipefail; echo BEGIN at $(date); ")
-shell.suffix("; exitstat=$?; echo END at $(date); echo exit status was $exitstat; exit $exitstat")
+#shell.prefix("set -eo pipefail; echo BEGIN at $(date); ")
+#shell.suffix("; exitstat=$?; echo END at $(date); echo exit status was $exitstat; exit $exitstat")
 
 configfile: "config.yaml"
 
@@ -176,7 +176,7 @@ rule make_bigwig_fq:
 	shell:
 		"""
 		source activate root
-		bamCoverage -b {input[0]} --skipNonCoveredRegions --normalizeUsingRPKM --binSize 20 --smoothLength 100 -p 5  -o {output} 2> {log}
+		bamCoverage -b {input[0]} --skipNonCoveredRegions --normalizeUsing RPKM --binSize 20 --smoothLength 100 -p 5  -o {output} 2> {log}
 
 		"""
 
@@ -220,6 +220,6 @@ rule make_bigwig_bam:
 	shell:
 		"""
 		source activate root
-		bamCoverage -b {input} --skipNonCoveredRegions --normalizeUsingRPKM --binSize 20 --smoothLength 100 -p 5  -o {output} 2> {log}
+		bamCoverage -b {input} --skipNonCoveredRegions --normalizeUsing RPKM --binSize 20 --smoothLength 100 -p 5  -o {output} 2> {log}
 
 		"""
